@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/selectphoto_layout_top"/>
+
+    <GridView
+        android:id="@+id/id_selectphoto_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="@android:color/transparent"
+        android:horizontalSpacing="3dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="3dp">
+
+    </GridView>
+
+    <RelativeLayout
+        android:id="@+id/id_selectphoto_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ee000000"
+        android:clipChildren="true">
+
+        <TextView
+            android:id="@+id/id_selectphoto_dirname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:text="所有图片"
+            android:textColor="@color/main_white"/>
+
+        <TextView
+            android:id="@+id/id_selectphoto_photocount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:text="0张"
+            android:textColor="@color/main_white"/>
+    </RelativeLayout>
+</LinearLayout>

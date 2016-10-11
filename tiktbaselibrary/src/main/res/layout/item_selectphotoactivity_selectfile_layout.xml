@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              >
+
+    <ImageView
+        android:id="@+id/id_item_selectfile_img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/button_black_border"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/zanwu"/>
+
+    <TextView
+        android:id="@+id/id_item_selectfile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center"
+        android:text="文件夹名"
+        android:textColor="@color/main_black"
+        android:layout_alignTop="@+id/id_item_selectfile_count"
+        android:layout_toRightOf="@+id/id_item_selectfile_img"
+        android:layout_toEndOf="@+id/id_item_selectfile_img"
+        android:layout_marginLeft="48dp"
+        android:textSize="14sp"
+        android:layout_marginStart="48dp"/>
+
+    <TextView
+        android:id="@+id/id_item_selectfile_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:text="1212张"
+        android:textSize="14sp"
+        android:layout_marginRight="31dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="39dp"
+        android:layout_alignBottom="@+id/id_item_selectfile_img"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>
