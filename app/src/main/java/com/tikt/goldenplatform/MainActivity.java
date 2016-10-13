@@ -2,9 +2,18 @@ package com.tikt.goldenplatform;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 
 import com.tikt.tools.DEScoder;
+
+import java.io.UnsupportedEncodingException;
+import java.security.Key;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
             "24F81ihDO8Nfmv6Y+4qmMhk2vLgmsmeuzxc3NHcq4Fw31+7kvvI5QRc3D25i+Gnu+" +
             "d3h5sRmWDrbxntLU8zjqkbR0IPzP2nvkm3LI2Ncjhdw/GaO4jC2KvnuS+wMgItlzL" +
             "AV6SjxJ1eghYO7OSmodS834xczrUyfw==";
-    
+
+    private static byte[] a = new byte[8];
+    //nbt_ztesoft_!@#$%^&==
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +42,33 @@ public class MainActivity extends AppCompatActivity {
 
         DEScoder scoder = new DEScoder("nbt_ztesoft_!@#$%^&==");
 
-        Log.i(TAG, "onCreate: =="+scoder.encrypt("code"));
-        Log.i(TAG, "onCreate: =="+scoder.decrypt(scoder.encrypt("code")));
+//        Log.i(TAG, "onCreate: =="+scoder.encrypt("code"));
+//        Log.i(TAG, "onCreate: =="+scoder.decrypt(scoder.encrypt("code")));
+        try {
+            Log.i(TAG, "onCreate: =="+ new String(a(Base64.decode(code.getBytes("utf-8"),0),"nbt_ztesoft_!@#$%^&=="),"utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(Base64.decode(code,0).toString());
+    }
+
+    public static byte[] a(byte[] bArr, String str) throws Exception {
+        Key key = a(b(str));
+        Cipher instance = Cipher.getInstance("DES/CBC/PKCS5Padding");
+        a = a("12345678");
+        instance.init(2, key, new IvParameterSpec(a));
+        return instance.doFinal(bArr);
+    }
+
+    private static Key a(byte[] bArr) throws Exception {
+        return SecretKeyFactory.getInstance("DES").generateSecret(new DESKeySpec(bArr));
+    }
+    public static byte[] a(String str) throws Exception {
+        return str.getBytes("UTF-8");
+    }
+    public static byte[] b(String str) throws Exception {
+        return str.getBytes();
     }
 }
