@@ -6,6 +6,9 @@ package com.tikt.goldenplatform;
 
 public class Api {
 
+	/**
+	 * 宁波通
+	 */
 	//查修公交线路
 	//Post
 	//参数：{"BUS_LINE_NAME":"2","SERVICE_NAME":"BusInfoService","method":"queryBusLines"}
@@ -20,4 +23,13 @@ public class Api {
 	//BUS_LINE_ID为0时已BUS_LINE_NAME为准，有正确的BUS_LINE_ID时，BUS_LINE_NAME可以为空
 	//url是一样的是什么技术？
 	//http://app.nbtong.cn:28090/ubossInterface/mcallremoteservice.do
+
+	/**
+	 * 宁波无线公交
+	 */
+	public static final String getBusListUrl = "http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/getBusList";
+	//查询线路
+	public static final String getBusLineUrl = "http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/getLineList";
+
+
 }
