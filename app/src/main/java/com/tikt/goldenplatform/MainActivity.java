@@ -22,13 +22,20 @@ import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static com.tikt.goldenplatform.BusStationActivity.getCipherString;
 import static com.tikt.goldenplatform.BusStationActivity.getOriginString;
 
 public class MainActivity extends BaseAppActivity {
     @Bind(R.id.id_mainActivity_btn)
     Button idMainActivityBtn;
 
+    Retrofit retrofit;
     //nbt_ztesoft_!@#$%^&==
     @Override
     protected int getContentViewLayoutID() {
@@ -37,7 +44,12 @@ public class MainActivity extends BaseAppActivity {
 
     @Override
     protected void initEvent() {
-
+        retrofit = new Retrofit.Builder()
+//				.baseUrl("http://192.168.1.121:8080/")
+                .baseUrl("http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/")
+//                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
     }
 
     @Override
@@ -63,10 +75,16 @@ public class MainActivity extends BaseAppActivity {
 
     @OnClick(R.id.id_mainActivity_btn)
     public void onClick() {
-//        String str1 = "￼$ￆￔ￦ﾖ￢ﾔￖﾖ$l$\u001E\f\\ￅ?w$\uFFDE";
-        String str1 = "123123123";
+        onRetrofitPostWithParams();
+        String str1 = "￼$ￆￔ￦ﾖ￢ﾔￖﾖ$l$\u001E\f\\ￅ?w$\uFFDE";
+//        String str1 = "123123123";
         RequestParams params = new RequestParams();
-        params.put("",str1);
+        try {
+            params.put("",getCipherString("{\"lineName\":\"528\"}"));
+            params.setContentEncoding("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Log.i(TAG, "params: =="+params.toString());
         startPost(Api.getBusLineUrl,params);
 //        Intent intent = new Intent(this,BusStationActivity.class);
@@ -121,7 +139,8 @@ public class MainActivity extends BaseAppActivity {
         client.getParams().setParameter("http.socket.timeout", Integer.valueOf(100000));
 
         try {
-            post.setEntity(new StringEntity(str1, "UTF-8"));
+//            post.setEntity(new StringEntity(str1, "UTF-8"));
+            post.setEntity(new StringEntity(getCipherString("{\"lineName\":\"528\"}"), "UTF-8"));
             HttpResponse response = client.execute(post);
             Log.i(TAG, "response\uff1a " + response);
             Log.i(TAG, "\u8fd4\u56de\u7684StatusCode\uff1a " + response.getStatusLine().getStatusCode());
@@ -141,30 +160,71 @@ public class MainActivity extends BaseAppActivity {
     }
     private void startPost(final String url , RequestParams params){
         clientHeaderParams = new AsyncHttpClient();
+        clientHeaderParams.setURLEncodingEnabled(false);
         clientHeaderParams.addHeader("charset","UTF-8");
         clientHeaderParams.addHeader("Cookie", "");
         clientHeaderParams.addHeader("Content-Type","application/json");
-        clientHeaderParams.post(url, params, new AsyncHttpResponseHandler() {
+        try {
+            clientHeaderParams.post(this, url, null, new StringEntity(getCipherString("{\"lineName\":\"528\"}"), "UTF-8"), "utf-8", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                    String str = new String(bytes);
+                    try {
+                        Log.i(TAG, "onClientSuccess: =="+getOriginString(str));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                    String str = new String(bytes);
+                    try {
+                        Log.i(TAG, "onClientonFailure: =="+getOriginString(str));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 带参Post请求
+     */
+    private void onRetrofitPostWithParams() {
+        String str1 = "￼$ￆￔ￦ﾖ￢ﾔￖﾖ$l$\u001E\f\\ￅ?w$\uFFDE";
+        BusLine service = retrofit.create(BusLine.class);
+        Call<String> repoCall = null;
+        try {
+            repoCall = service.listRepos(getCipherString("{\"lineName\":\"528\"}"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "initEvent: repoCall.request().url()==" + repoCall.request().url());
+        repoCall.enqueue(new Callback<String>() {
             @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                String str = new String(bytes);
+            public void onResponse(Call<String> call, Response<String> response) {
+
                 try {
-                    Log.i(TAG, "onClientSuccess: =="+getOriginString(str));
+                    Log.i(TAG, "onResponse: =="+getOriginString(response.body()));
+                    Log.i(TAG, "onResponse: =="+response.body());
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                String str = new String(bytes);
-                try {
-                    Log.i(TAG, "onClientonFailure: =="+getOriginString(str));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            public void onFailure(Call<String> call, Throwable t) {
+
+                    Log.i(TAG, "onResponse: =="+call.toString());
+                    Log.i(TAG, "onResponse: =="+call.toString());
+
             }
         });
+
     }
 }
