@@ -1,8 +1,9 @@
 package com.tikt.goldenplatform;
 
-import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
+
+import com.tikt.goldenplatform.base.BaseAppActivity;
 
 import org.json.JSONObject;
 
@@ -12,7 +13,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseAppActivity {
     @Bind(R.id.id_mainActivity_btn)
     Button idMainActivityBtn;
-
+    //
     //nbt_ztesoft_!@#$%^&==
     @Override
     protected int getContentViewLayoutID() {
@@ -29,20 +30,6 @@ public class MainActivity extends BaseAppActivity {
 
     }
 
-    @Override
-    protected void showLoadingProgressWithStr(Context context, String msg) {
-
-    }
-
-    @Override
-    protected void showLoadingProgress(Context context) {
-
-    }
-
-    @Override
-    protected void hidenLoadingProgress() {
-
-    }
 
 
     @OnClick(R.id.id_mainActivity_btn)
