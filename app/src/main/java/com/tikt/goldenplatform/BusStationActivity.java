@@ -8,13 +8,10 @@ import android.view.View;
 import android.widget.SearchView;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.tikt.goldenplatform.base.BaseAppActivity;
 import com.tikt.goldenplatform.bean.BusRealTimeEntity;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
@@ -23,10 +20,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import butterknife.Bind;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import butterknife.Bind;
 
 /**
  * 公交运行情况
@@ -107,47 +104,20 @@ public class BusStationActivity extends BaseAppActivity {
 		params.put("SERVICE_NAME", "BusInfoService");
 		params.put("method", "queryBusLineInfo2");
 		startPostClientWithHeaderParams(Api.BaseUrl, params);
-	}
+		//
         getBusLine("{\"lineName\":\"528\"}");
-        RequestParams params = new RequestParams();
-        params.put("PUB_USER_ID","");
-        params.put("DEVICE_ID","867995029570416");
-        params.put("BUS_LINE_NAME",busName);
-        params.put("BUS_LINE_ID",busID);
-        params.put("FLAG",FLAG);
-        params.put("ADV_FLAG",1);
-        params.put("SERVICE_NAME","BusInfoService");
-        params.put("method","queryBusLineInfo2");
+	}
+
 //        startPostClientWithHeaderParams(Api.BaseUrl,params);
 
         //{"VEHICLE_POS":[{"TIME":1476191369956,"STRANK":22,"CAR_ID":1910,"STATION_NAME":"联丰路丽园南路口(送子鸟医院)","CUR_STATION_ID":161,"FLAG":"1","POSITION":1,"TIMEN":1476191369956},{"TIME":1476191368358,"STRANK":7,"CAR_ID":157,"STATION_NAME":"金家漕","CUR_STATION_ID":32384,"FLAG":"1","POSITION":0,"TIMEN":1476191368358},{"TIME":1476191363512,"STRANK":28,"CAR_ID":390,"STATION_NAME":"关爱小区","CUR_STATION_ID":1459,"FLAG":"1","POSITION":1,"TIMEN":1476191363512},{"TIME":1476191368433,"STRANK":16,"CAR_ID":162,"STATION_NAME":"药行街(开明街)","CUR_STATION_ID":1624,"FLAG":"1","POSITION":1,"TIMEN":1476191368433}]}
 
 
-    }
-
-	@Override
-	protected void onClientSuccess(String url, JSONObject json) {
-//    Thread thread = new Thread();
 
 
     @Override
     protected void onClientSuccess(String url, JSONObject json) {
 
-		switch (url) {
-			case Api.BaseUrl:
-				Gson gson = new Gson();
-				BusRealTimeEntity station = gson.fromJson(json.toString(), BusRealTimeEntity.class);
-				station.getCRYPTOGRAPH();
-				try {
-					Log.i(TAG, "onClientSuccess: ==" + new String(DESCodeUitl.decode(Base64.decode(station.getCRYPTOGRAPH().getBytes("utf-8"), 0), "nbt_ztesoft_!@#$%^&=="), "utf-8"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			default:
-				break;
-		}
-	}
         switch (url){
             case Api.BaseUrl:
                 Gson gson = new Gson();
@@ -171,20 +141,6 @@ public class BusStationActivity extends BaseAppActivity {
         }
     }
 
-    @Override
-    protected void showLoadingProgressWithStr(Context context, String msg) {
-
-    }
-
-    @Override
-    protected void showLoadingProgress(Context context) {
-
-    }
-
-    @Override
-    protected void hidenLoadingProgress() {
-
-    }
 
     private void getBusLine(String str){
         RequestParams params = new RequestParams();
@@ -203,7 +159,6 @@ public class BusStationActivity extends BaseAppActivity {
 //            e.printStackTrace();
 //        }
         Log.i(TAG, "params: =="+params.toString());
-        startPost(Api.getBusLineUrl,params);
         DefaultHttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(Api.getBusLineUrl);
         post.addHeader("charset", "UTF-8");
@@ -228,34 +183,6 @@ public class BusStationActivity extends BaseAppActivity {
 
 
     }
-
-    private void startPost(final String url , RequestParams params){
-        clientHeaderParams = new AsyncHttpClient();
-        clientHeaderParams.post(url, params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                String str = new String(bytes);
-                try {
-                    Log.i(TAG, "onClientSuccess: =="+getOriginString(str));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                String str = new String(bytes);
-                try {
-                    Log.i(TAG, "onClientonFailure: =="+getOriginString(str));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-
 
     /**
      * 加密
