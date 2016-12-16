@@ -1,5 +1,7 @@
 package com.tikt.base;
 
+import android.content.Context;
+
 import butterknife.ButterKnife;
 
 /**
@@ -26,4 +28,17 @@ public abstract class BaseTikTActivity extends MostBasicTikTActivity {
 		super.onDestroy();
 		ButterKnife.unbind(this);
 	}
+	/**
+	 * 显示加载弹窗及信息
+	 */
+	protected abstract void showLoadingProgressWithStr(Context context, String msg);
+
+	/**
+	 * 显示加载弹窗
+	 */
+	protected abstract void showLoadingProgress(Context context);
+	/**
+	 * 隐藏加载弹窗
+	 */
+	protected abstract void hidenLoadingProgress();
 }

@@ -1,20 +1,19 @@
-package com.tikt.goldenplatform.base;
+package com.tikt.goldenplatform.test;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.tikt.base.BaseTikTActivity;
+import com.tikt.base.HttpTikTFragment;
 
 /**
  * Created by tikt on 16-10-8.
  */
 
-public abstract class BaseAppActivity extends BaseTikTActivity {
+public abstract class BaseAppFragment extends HttpTikTFragment {
 
 	protected KProgressHUD HUDprogress;
 	protected String TAG = "TAG";
-
 	@Override
 	protected void showLoadingProgressWithStr(Context context, String msg) {
 		if (null == HUDprogress) {
@@ -53,7 +52,7 @@ public abstract class BaseAppActivity extends BaseTikTActivity {
 	 * @param activity
 	 */
 	protected void toActivity(Class activity){
-		Intent intent = new Intent(this,activity);
+		Intent intent = new Intent(getActivity(),activity);
 		startActivity(intent);
 	}
 }

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public abstract class MostBasicTikTActivity extends AppCompatActivity {
 
+	public String TAG = "TAG";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

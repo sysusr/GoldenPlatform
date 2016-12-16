@@ -1,24 +1,19 @@
 package com.tikt.goldenplatform;
 
 import android.content.Intent;
-import android.content.Context;
 import android.util.Log;
 import android.widget.Button;
 
-import com.tikt.goldenplatform.base.BaseAppActivity;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.tikt.goldenplatform.base.BaseAppActivity;
+import com.tikt.goldenplatform.test.BusStationActivity;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -31,8 +26,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-import static com.tikt.goldenplatform.BusStationActivity.getCipherString;
-import static com.tikt.goldenplatform.BusStationActivity.getOriginString;
+import static com.tikt.goldenplatform.test.BusStationActivity.getCipherString;
+import static com.tikt.goldenplatform.test.BusStationActivity.getOriginString;
 
 public class MainActivity extends BaseAppActivity {
     @Bind(R.id.id_mainActivity_btn)
@@ -47,6 +42,11 @@ public class MainActivity extends BaseAppActivity {
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected void initEvent() {
         retrofit = new Retrofit.Builder()
 //				.baseUrl("http://192.168.1.121:8080/")
@@ -56,10 +56,10 @@ public class MainActivity extends BaseAppActivity {
                 .build();
     }
 
-    @Override
+  /*  @Override
     protected void onClientSuccess(String url, JSONObject json) {
 
-    }
+    }*/
 
 
 
@@ -72,7 +72,7 @@ public class MainActivity extends BaseAppActivity {
         onRetrofitPostWithParams();
         String str1 = "￼$ￆￔ￦ﾖ￢ﾔￖﾖ$l$\u001E\f\\ￅ?w$\uFFDE";
 //        String str1 = "123123123";
-        RequestParams params = new RequestParams();
+        /*RequestParams params = new RequestParams();
         try {
             params.put("",getCipherString("{\"lineName\":\"528\"}"));
             params.setContentEncoding("utf-8");
@@ -80,13 +80,10 @@ public class MainActivity extends BaseAppActivity {
             e.printStackTrace();
         }
         Log.i(TAG, "params: =="+params.toString());
-        startPost(Api.getBusLineUrl,params);
-//        Intent intent = new Intent(this,BusStationActivity.class);
-//        intent.putExtra("BUS_NAME","509");
-//        intent.putExtra("BUS_ID",3230);
-//        startActivity(intent);
+        startPost(Api.getBusLineUrl,params);*/
+
         // 1、直接new 一个线程类，传入参数实现Runnable接口的对象（new Runnable），相当于方法二
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 // 写子线程中的操作
@@ -99,7 +96,7 @@ public class MainActivity extends BaseAppActivity {
         t.start();
 
         // 3、通过继承线程类实现
-        new myThread().start();
+        new myThread().start();*/
 
 
     }
@@ -153,37 +150,37 @@ public class MainActivity extends BaseAppActivity {
 
     }
     private void startPost(final String url , RequestParams params){
-        clientHeaderParams = new AsyncHttpClient();
-        clientHeaderParams.setURLEncodingEnabled(false);
-        clientHeaderParams.addHeader("charset","UTF-8");
-        clientHeaderParams.addHeader("Cookie", "");
-        clientHeaderParams.addHeader("Content-Type","application/json");
-        try {
-            clientHeaderParams.post(this, url, null, new StringEntity(getCipherString("{\"lineName\":\"528\"}"), "UTF-8"), "utf-8", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                    String str = new String(bytes);
-                    try {
-                        Log.i(TAG, "onClientSuccess: =="+getOriginString(str));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                    String str = new String(bytes);
-                    try {
-                        Log.i(TAG, "onClientonFailure: =="+getOriginString(str));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
+//        clientHeaderParams = new AsyncHttpClient();
+//        clientHeaderParams.setURLEncodingEnabled(false);
+//        clientHeaderParams.addHeader("charset","UTF-8");
+//        clientHeaderParams.addHeader("Cookie", "");
+//        clientHeaderParams.addHeader("Content-Type","application/json");
+//        try {
+//            clientHeaderParams.post(this, url, null, new StringEntity(getCipherString("{\"lineName\":\"528\"}"), "UTF-8"), "utf-8", new AsyncHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+//                    String str = new String(bytes);
+//                    try {
+//                        Log.i(TAG, "onClientSuccess: =="+getOriginString(str));
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+//                    String str = new String(bytes);
+//                    try {
+//                        Log.i(TAG, "onClientonFailure: =="+getOriginString(str));
+//                    } catch (UnsupportedEncodingException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//
     }
 
     /**

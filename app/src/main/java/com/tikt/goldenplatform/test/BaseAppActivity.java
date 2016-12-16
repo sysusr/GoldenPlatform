@@ -1,16 +1,16 @@
-package com.tikt.goldenplatform.base;
+package com.tikt.goldenplatform.test;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.tikt.base.BaseTikTActivity;
+import com.tikt.base.HttpTikTActivity;
 
 /**
  * Created by tikt on 16-10-8.
  */
 
-public abstract class BaseAppActivity extends BaseTikTActivity {
+public abstract class BaseAppActivity extends HttpTikTActivity {
 
 	protected KProgressHUD HUDprogress;
 	protected String TAG = "TAG";
