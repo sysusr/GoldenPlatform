@@ -6,10 +6,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.google.gson.Gson;
+import com.tikt.goldenplatform.Api;
 import com.tikt.goldenplatform.BusLine;
 import com.tikt.goldenplatform.DESCodeUitl;
 import com.tikt.goldenplatform.R;
+import com.tikt.goldenplatform.adapter.BusStationAdapter;
 import com.tikt.goldenplatform.base.BaseAppActivity;
+import com.tikt.goldenplatform.bean.wuxiangongjiao.BusStationEntity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -35,7 +39,7 @@ public class BusStationActivity extends BaseAppActivity {
 	String busName;//公交线路名称
 	int busID;//公交ID
 	int FLAG = 1;//FLAG:1,正向、2,反向
-
+	BusStationAdapter adapter;
 	String code = "jmH2nIwTc2uWfs2RpzmajmnahkZxCK8Bmp08QuACszWDR6VcQ3mxRlvQ6X" +
 			"HYqEjmFr02V+huHyrTUzkvSAZvX8efy//lZzvMfuPKyzUACXs7eUSU1b1zvrbd" +
 			"w91n4ePri1I76YaKNhy3Z/xYaSgE30o9AY6UKHg17efyWIBSW1y7lhKvAPet8I" +
@@ -61,7 +65,7 @@ public class BusStationActivity extends BaseAppActivity {
 	@Override
 	protected void initView() {
 		retrofit = new Retrofit.Builder()
-				.baseUrl("http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/")
+				.baseUrl(Api.BaseUrl)
 //                .addConverterFactory(GsonConverterFactory.create())
 				.addConverterFactory(ScalarsConverterFactory.create())
 				.build();
@@ -73,9 +77,8 @@ public class BusStationActivity extends BaseAppActivity {
 		busName = getIntent().getExtras().getString("BUS_NAME");
 		busID = getIntent().getExtras().getInt("BUS_ID");
 
-		Map<String, String> map = new HashMap<>();
-		map.put("lineName", busName);
-		onRetrofitPostWithParams(map.toString());
+
+		onRetrofitPostWithParams(busName);
 
 
 
@@ -98,17 +101,18 @@ public class BusStationActivity extends BaseAppActivity {
 			}
 		});
 	}
-	//{"VEHICLE_POS":[{"TIME":1476191369956,"STRANK":22,"CAR_ID":1910,"STATION_NAME":"联丰路丽园南路口(送子鸟医院)","CUR_STATION_ID":161,"FLAG":"1","POSITION":1,"TIMEN":1476191369956},{"TIME":1476191368358,"STRANK":7,"CAR_ID":157,"STATION_NAME":"金家漕","CUR_STATION_ID":32384,"FLAG":"1","POSITION":0,"TIMEN":1476191368358},{"TIME":1476191363512,"STRANK":28,"CAR_ID":390,"STATION_NAME":"关爱小区","CUR_STATION_ID":1459,"FLAG":"1","POSITION":1,"TIMEN":1476191363512},{"TIME":1476191368433,"STRANK":16,"CAR_ID":162,"STATION_NAME":"药行街(开明街)","CUR_STATION_ID":1624,"FLAG":"1","POSITION":1,"TIMEN":1476191368433}]}
 
 	/**
 	 * 带参Post请求
 	 */
 	private void onRetrofitPostWithParams(String bus) {
 		//        bus = "{\"lineName\":\"528\"}"; 参数原型
+		Map<String, String> map = new HashMap<>();
+		map.put("lineName", bus);
 		BusLine service = retrofit.create(BusLine.class);
 		Call<String> repoCall = null;
 		try {
-			repoCall = service.listRepos(DESCodeUitl.getCipherString(bus));
+			repoCall = service.listRepos(DESCodeUitl.getCipherString(map.toString()));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -118,8 +122,14 @@ public class BusStationActivity extends BaseAppActivity {
 			public void onResponse(Call<String> call, Response<String> response) {
 
 				try {
-					Log.i(TAG, "onResponse: ==" + DESCodeUitl.getOriginString(response.body()));
 					Log.i(TAG, "onResponse: ==" + response.body());
+					String result;
+					result = DESCodeUitl.getOriginString(response.body());
+					Log.i(TAG, "onResponse: ==" + result);
+				Gson gson = new Gson();
+					gson.fromJson(result, BusStationEntity.class);
+
+
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}

@@ -63,7 +63,7 @@ public class MainActivity extends BaseAppActivity {
 	@OnClick(R.id.id_mainActivity_btn)
 	public void onClick() {
 		Intent intent = new Intent(this, BusStationActivity.class);
-		intent.putExtra("BUS_NAME", "509");
+		intent.putExtra("BUS_NAME", "810");
 		intent.putExtra("BUS_ID", 3230);
 		startActivity(intent);
 
