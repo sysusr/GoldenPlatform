@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.loopj.android.http.RequestParams;
 import com.tikt.goldenplatform.base.BaseAppActivity;
+import com.tikt.goldenplatform.retrofitInterface.BusLine;
 import com.tikt.goldenplatform.ui.BusStationActivity;
 
 import org.apache.http.HttpResponse;
@@ -67,7 +68,7 @@ public class MainActivity extends BaseAppActivity {
 		intent.putExtra("BUS_ID", 3230);
 		startActivity(intent);
 
-//		onRetrofitPostWithParams();
+//		getBusLine();
 		String str1 = "￼$ￆￔ￦ﾖ￢ﾔￖﾖ$l$\u001E\f\\ￅ?w$\uFFDE";
 //        String str1 = "123123123";
         /*RequestParams params = new RequestParams();

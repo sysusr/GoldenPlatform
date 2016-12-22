@@ -8,12 +8,14 @@ import android.widget.SearchView;
 
 import com.google.gson.Gson;
 import com.tikt.goldenplatform.Api;
-import com.tikt.goldenplatform.BusLine;
+import com.tikt.goldenplatform.retrofitInterface.BusLine;
 import com.tikt.goldenplatform.DESCodeUitl;
 import com.tikt.goldenplatform.R;
 import com.tikt.goldenplatform.adapter.BusStationAdapter;
 import com.tikt.goldenplatform.base.BaseAppActivity;
-import com.tikt.goldenplatform.bean.wuxiangongjiao.BusStationEntity;
+import com.tikt.goldenplatform.bean.wuxiangongjiao.BusLineEntity;
+import com.tikt.goldenplatform.retrofitInterface.BusList;
+import com.tikt.goldenplatform.retrofitInterface.BusStationList;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -78,9 +80,11 @@ public class BusStationActivity extends BaseAppActivity {
 		busID = getIntent().getExtras().getInt("BUS_ID");
 
 
-		onRetrofitPostWithParams(busName);
+		getBusLine(busName);
 
+		getBusStationList(busName);
 
+		getBusList(busName);
 
 
 		//{"VEHICLE_POS":[{"TIME":1476191369956,"STRANK":22,"CAR_ID":1910,"STATION_NAME":"联丰路丽园南路口(送子鸟医院)","CUR_STATION_ID":161,"FLAG":"1","POSITION":1,"TIMEN":1476191369956},{"TIME":1476191368358,"STRANK":7,"CAR_ID":157,"STATION_NAME":"金家漕","CUR_STATION_ID":32384,"FLAG":"1","POSITION":0,"TIMEN":1476191368358},{"TIME":1476191363512,"STRANK":28,"CAR_ID":390,"STATION_NAME":"关爱小区","CUR_STATION_ID":1459,"FLAG":"1","POSITION":1,"TIMEN":1476191363512},{"TIME":1476191368433,"STRANK":16,"CAR_ID":162,"STATION_NAME":"药行街(开明街)","CUR_STATION_ID":1624,"FLAG":"1","POSITION":1,"TIMEN":1476191368433}]}
@@ -104,8 +108,9 @@ public class BusStationActivity extends BaseAppActivity {
 
 	/**
 	 * 带参Post请求
+	 * 查询线路
 	 */
-	protected void onRetrofitPostWithParams(String bus) {
+	protected void getBusLine(String bus) {
 		//        bus = "{\"lineName\":\"528\"}"; 参数原型
 		Map<String, String> map = new HashMap<>();
 		map.put("lineName", bus);
@@ -122,12 +127,12 @@ public class BusStationActivity extends BaseAppActivity {
 			public void onResponse(Call<String> call, Response<String> response) {
 
 				try {
-					Log.i(TAG, "onResponse: ==" + response.body());
+					Log.i(TAG, call.request().url()+" onResponse: ==" + response.body());
 					String result;
 					result = DESCodeUitl.getOriginString(response.body());
 					Log.i(TAG, "onResponse: ==" + result);
 				Gson gson = new Gson();
-					gson.fromJson(result, BusStationEntity.class);
+					gson.fromJson(result, BusLineEntity.class);
 
 
 				} catch (UnsupportedEncodingException e) {
@@ -139,6 +144,101 @@ public class BusStationActivity extends BaseAppActivity {
 			public void onFailure(Call<String> call, Throwable t) {
 
 				Log.i(TAG, "onResponse: ==" + call.toString());
+
+			}
+		});
+
+	}
+
+	/**
+	 * 带参Post请求
+	 *
+	 */
+	protected void getBusStationList(String bus) {
+		//{"busCorpId":"22336","typeAttr":0,"lineId":"26846100"} 参数原型
+		bus = "{\"busCorpId\":\"22336\",\"typeAttr\":0,\"lineId\":\"26846100\"}";
+		Map<String, String> map = new HashMap<>();
+		map.put("busCorpId", bus);
+		map.put("typeAttr", bus);
+		map.put("lineId", bus);
+		BusStationList service = retrofit.create(BusStationList.class);
+		Call<String> repoCall = null;
+		try {
+			repoCall = service.listRepos(DESCodeUitl.getCipherString(map.toString()));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		Log.i(TAG, "initEvent: repoCall.request().url()==" + repoCall.request().url());
+		repoCall.enqueue(new Callback<String>() {
+			@Override
+			public void onResponse(Call<String> call, Response<String> response) {
+
+				try {
+					Log.i(TAG, call.request().url()+" onResponse: ==" + response.body());
+					String result;
+					result = DESCodeUitl.getOriginString(response.body());
+					Log.i(TAG, "onResponse: ==" + result);
+					Gson gson = new Gson();
+					gson.fromJson(result, BusLineEntity.class);
+
+
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call<String> call, Throwable t) {
+
+				Log.i(TAG, "onResponse: ==" + call.toString());
+
+			}
+		});
+
+	}
+
+	/**
+	 * 带参Post请求
+	 *
+	 */
+	protected void getBusList(String bus) {
+		//{"busCorpId":"22336","typeAttr":0,"number":100,"sort":32,"lineId":"26846100"} 参数原型
+		bus = "{\"busCorpId\":\"22336\",\"typeAttr\":0,\"number\":100,\"sort\":32,\"lineId\":\"26846100\"}";
+		Map<String, String> map = new HashMap<>();
+		map.put("busCorpId", bus);
+		map.put("typeAttr", bus);
+		map.put("number", bus);
+		map.put("sort", bus);
+		map.put("lineId", bus);
+		BusList service = retrofit.create(BusList.class);
+		Call<String> repoCall = null;
+		try {
+			repoCall = service.listRepos(DESCodeUitl.getCipherString(map.toString()));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		Log.i(TAG, "initEvent: repoCall.request().url()==" + repoCall.request().url());
+		repoCall.enqueue(new Callback<String>() {
+			@Override
+			public void onResponse(Call<String> call, Response<String> response) {
+
+				try {
+					Log.i(TAG, call.request().url()+" onResponse: ==" + response.body());
+					String result;
+					result = DESCodeUitl.getOriginString(response.body());
+					Log.i(TAG, "onResponse: ==" + result);
+					Gson gson = new Gson();
+					gson.fromJson(result, BusLineEntity.class);
+
+
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(Call<String> call, Throwable t) {
+				Log.i(TAG, call.request().url()+" onResponse: ==" +  call.toString());
 
 			}
 		});

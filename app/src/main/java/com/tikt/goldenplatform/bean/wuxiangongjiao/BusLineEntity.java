@@ -5,9 +5,10 @@ import java.util.List;
 /**
  * Created by TikT on 2016/12/21.
  * 无线公交
+ * 查询线路
  */
 
-public class BusStationEntity {
+public class BusLineEntity {
 
     /**
      * errorMessage : 获取线路信息成功！

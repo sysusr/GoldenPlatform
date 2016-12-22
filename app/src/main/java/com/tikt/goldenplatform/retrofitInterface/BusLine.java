@@ -1,4 +1,6 @@
-package com.tikt.goldenplatform;
+package com.tikt.goldenplatform.retrofitInterface;
+
+import com.tikt.goldenplatform.Api;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,6 +12,6 @@ import retrofit2.http.POST;
 
 public interface BusLine {
 
-    @POST("getLineList")
+    @POST(Api.getBusLineUrl)
     Call<String> listRepos(@Body String str);
 }
