@@ -103,7 +103,7 @@ public class BusStationActivity extends BaseAppActivity {
 	/**
 	 * 带参Post请求
 	 */
-	private void onRetrofitPostWithParams(String bus) {
+	protected void onRetrofitPostWithParams(String bus) {
 		//        bus = "{\"lineName\":\"528\"}"; 参数原型
 		BusLine service = retrofit.create(BusLine.class);
 		Call<String> repoCall = null;
