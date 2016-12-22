@@ -1,5 +1,7 @@
 package com.tikt.goldenplatform;
 
+import retrofit2.http.Url;
+
 /**
  * Created by tikt on 16-10-13.
  */
@@ -12,7 +14,7 @@ public class Api {
 	//查修公交线路
 	//Post
 	//参数：{"BUS_LINE_NAME":"2","SERVICE_NAME":"BusInfoService","method":"queryBusLines"}
-	public static final String BaseUrl = "http://app.nbtong.cn:28090/ubossInterface/mcallremoteservice.do";
+//	public static final String BaseUrl = "http://app.nbtong.cn:28090/ubossInterface/mcallremoteservice.do";
 
 	//查询某路车的行驶情况
 	//post
@@ -26,10 +28,18 @@ public class Api {
 
 	/**
 	 * 宁波无线公交
+	 * 两条baseUrl都能用，效果一样，他们为什么要两条？
+	 * 我去，weixin1是给android用的，weinxin2是iPhone用的,
+	 * 而且晚上，weixin1是服务器错误(后来也可以了，但不是很稳定)，但是weixin2却没问题
 	 */
-	public static final String getBusListUrl = "http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/getBusList";
+//	public static final String BaseUrl = "http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/";
+	public static final String BaseUrl = "http://weixin2.nbbus.com:8080/NingboBusWebservice/resources/";
+	//查询某辆车的行驶位置
+	public static final String getBusListUrl = "getBusList";
 	//查询线路
-	public static final String getBusLineUrl = "http://Weixin1.nbbus.com:8080/NingboBusWebservice/resources/getLineList";
+	public static final String getBusLineUrl = "getLineList";
+	//查询某条公交的线路上经过的站
+	public static final String getBusStationlistUrl= "getStationList";
 
 
 }
